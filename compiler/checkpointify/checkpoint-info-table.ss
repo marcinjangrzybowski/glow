@@ -1,7 +1,8 @@
 
 (export read-checkpoint-info-table
         write-checkpoint-info-table
-        checkpoint-info-table=?)
+        checkpoint-info-table=?
+	stx->repr-sexpr)
 
 (import :std/iter
         :std/format

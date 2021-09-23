@@ -6,8 +6,10 @@
   <expander-runtime>
   :mukn/ethereum/types
   :mukn/ethereum/ethereum
+  :gerbil/gambit/misc
   (only-in ../compiler/alpha-convert/alpha-convert init-syms)
   ../compiler/typecheck/type
+  ../compiler/checkpointify/checkpoint-info-table
   ../compiler/checkpointify/checkpointify)
 
 (def Interaction (Map CodeBlock <- Symbol))
@@ -44,7 +46,9 @@
         {interactions: (make-hash-table)
          compiler-output: some-compiler-output
          initial-label: some-initial-label
-         small-functions: (make-hash-table)})
+         small-functions: (make-hash-table)}
+
+	)
       ;; A conservative predicate that only returns true when the variable-name
       ;; is definitely a constant.
       ;; Currently, it is a constant if it is in the `init-syms` or in the values in AlphaEnv,
@@ -170,8 +174,12 @@
   (def module (hash-ref compiler-output 'project.sexp))
   (match (syntax->datum module)
     (['@module [initial-label final-label] . statements]
-      (def program (.call Program .make compiler-output initial-label))
-      (for ((statement (syntax->datum statements)))
+     (def program (.call Program .make compiler-output initial-label))
+     (display (pretty-print (stx->repr-sexpr (hash-get compiler-output 'anf.sexp)) ))
+     (display (pretty-print (stx->repr-sexpr (hash-get compiler-output 'checkpointify.sexp)) ))
+     (display (pretty-print (stx->repr-sexpr (hash-keys (hash-get compiler-output 'cpitable2.sexp))) ))
+     (display (pretty-print (stx->repr-sexpr (hash-keys (hash-get compiler-output 'cpltable.sexp))) ))     
+     (for ((statement (syntax->datum statements)))
         (match statement
           (['def name ['λ arguments-value [start-label-value end-label-value] . body-value]]
             (def small-functions (.@ program small-functions))
