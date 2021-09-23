@@ -175,10 +175,12 @@
   (match (syntax->datum module)
     (['@module [initial-label final-label] . statements]
      (def program (.call Program .make compiler-output initial-label))
-     (display (pretty-print (stx->repr-sexpr (hash-get compiler-output 'anf.sexp)) ))
-     (display (pretty-print (stx->repr-sexpr (hash-get compiler-output 'checkpointify.sexp)) ))
-     (display (pretty-print (stx->repr-sexpr (hash-keys (hash-get compiler-output 'cpitable2.sexp))) ))
-     (display (pretty-print (stx->repr-sexpr (hash-keys (hash-get compiler-output 'cpltable.sexp))) ))     
+     (pretty-print (stx->repr-sexpr (hash-get compiler-output 'typetable.sexp)) )
+     (pretty-print (stx->repr-sexpr (hash-get compiler-output 'mere.sexp)) )
+     (pretty-print (stx->repr-sexpr (hash-get compiler-output 'anf.sexp)) )
+     (pretty-print (stx->repr-sexpr (hash-get compiler-output 'checkpointify.sexp)) )
+     (pretty-print (hash-map (lambda (k v) v) (hash-get compiler-output 'cpitable2.sexp)) )
+     (pretty-print (hash->list (hash-get compiler-output 'cpltable.sexp)) )     
      (for ((statement (syntax->datum statements)))
         (match statement
           (['def name ['λ arguments-value [start-label-value end-label-value] . body-value]]
