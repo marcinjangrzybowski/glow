@@ -179,8 +179,9 @@
      (pretty-print (stx->repr-sexpr (hash-get compiler-output 'mere.sexp)) )
      (pretty-print (stx->repr-sexpr (hash-get compiler-output 'anf.sexp)) )
      (pretty-print (stx->repr-sexpr (hash-get compiler-output 'checkpointify.sexp)) )
-     (pretty-print (hash-map (lambda (k v) v) (hash-get compiler-output 'cpitable2.sexp)) )
-     (pretty-print (hash->list (hash-get compiler-output 'cpltable.sexp)) )     
+     (pretty-print (hash-map (lambda (k v) (struct->list v)) (hash-get compiler-output 'cpitable2.sexp)) )
+     (pretty-print (hash->list (hash-get compiler-output 'cpltable.sexp)) )
+     (pretty-print (stx->repr-sexpr (hash-get compiler-output 'project.sexp)) )
      (for ((statement (syntax->datum statements)))
         (match statement
           (['def name ['λ arguments-value [start-label-value end-label-value] . body-value]]
