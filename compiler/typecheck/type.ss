@@ -131,7 +131,10 @@
 (def type:Assets (type:name 'Assets))
 (def type:Signature (type:name 'Signature))
 
-(for-each add-empty-type-info! '(Int Nat Bool Bytes Participant Digest Assets Signature))
+(def type:Label (type:name 'Label))
+
+
+(for-each add-empty-type-info! '(Int Nat Bool Bytes Participant Digest Assets Signature Label))
 
 ;; lists are covariant, so (listof a) <: (listof b) when a <: b
 (def typector:listof (type:name 'listof))
